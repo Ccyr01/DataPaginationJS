@@ -117,15 +117,14 @@ linkList.addEventListener('click', (event) => {
       // console.log("inside");
       // console.log("eTarget.className = "+eTarget.classNbuttonsame);
       // active.remove('active');
-      for(let i = 0; i < buttons.length; i++){
-
-  
-         // 1aa. Inside the loop, use `.classList.remove()` to remove the 'active' class name from all buttons
-         buttons[i].classList.remove('active');
+      if(active !== null){
+         active.classList.remove("active");
       }
       eTarget.className = 'active';
       console.log("eTarget.className = "+eTarget.className);
-
+      console.log(eTarget.textContent);
+      
+      showPage(data, parseInt(eTarget.textContent));
    }
 })
 
