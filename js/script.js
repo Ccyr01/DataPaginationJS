@@ -14,7 +14,7 @@ For assistance:
 const itemsPerPage = 9;
 const studentList = document.querySelector('.student-list');
 const linkList = document.querySelector('.link-list');
-
+const buttons = document.querySelectorAll('button');
 
 /*
 Create the `showPage` function
@@ -107,19 +107,28 @@ function createButton(buttonNumber){
    li.appendChild(button);
    linkList.appendChild(li);
 }
-
+addPagination(data);
 linkList.addEventListener('click', (event) => {
+   event.preventDefault();
    const active = document.querySelector('.active');
+   console.log(active);
    const eTarget = event.target;
    if(eTarget.getElementsByTagName('button')){
-      console.log("eTarget: "+eTarget);
-      console.log("eTarget.className = "+eTarget.className);
+      // console.log("inside");
+      // console.log("eTarget.className = "+eTarget.classNbuttonsame);
       // active.remove('active');
-      // eTarget.className
+      for(let i = 0; i < buttons.length; i++){
+
+  
+         // 1aa. Inside the loop, use `.classList.remove()` to remove the 'active' class name from all buttons
+         buttons[i].classList.remove('active');
+      }
+      eTarget.className = 'active';
+      console.log("eTarget.className = "+eTarget.className);
 
    }
 })
-addPagination(data);
+
 
 
 
