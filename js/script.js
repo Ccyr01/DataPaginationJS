@@ -100,11 +100,25 @@ function addPagination(list){
 
 function createButton(buttonNumber){
    const li = document.createElement('li');
+
    const button = document.createElement('button');
    button.setAttribute('type', 'button');
    button.innerHTML = buttonNumber+1;
+   li.appendChild(button);
    linkList.appendChild(li);
 }
+
+linkList.addEventListener('click', (event) => {
+   const active = document.querySelector('.active');
+   const eTarget = event.target;
+   if(eTarget.getElementsByTagName('button')){
+      console.log("eTarget: "+eTarget);
+      console.log("eTarget.className = "+eTarget.className);
+      // active.remove('active');
+      // eTarget.className
+
+   }
+})
 addPagination(data);
 
 
