@@ -12,10 +12,15 @@ For assistance:
 */
 
 const itemsPerPage = 9;
+const header = document.querySelector('.header');
+
 const studentList = document.querySelector('.student-list');
 const linkList = document.querySelector('.link-list');
 const buttons = document.querySelectorAll('button');
 
+
+
+insertSearchBar();
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
@@ -48,6 +53,35 @@ function showPage(list, page){
       }
    }
 }
+const studentNames = document.querySelectorAll('h3');
+console.log("studentNames: "+studentNames);
+function insertSearchBar(){
+   const label = document.createElement('label');
+   label.setAttribute('for', 'search');
+   label.setAttribute('class', 'student-search');
+   header.appendChild(label);
+   const span = document.createElement('span');
+   span.innerHTML = "Search by name";
+   label.appendChild(span);
+   const input = document.createElement('input');
+   input.setAttribute('type', 'text');
+   input.setAttribute('id','search');
+   input.setAttribute('placeholder', 'Search by name..');
+   input.setAttribute('autocomplete', 'off');
+   label.appendChild(input);
+   const button = document.createElement('button');
+   button.setAttribute('type', 'submit');
+   button.setAttribute('id','submit');
+   label.appendChild(button);
+   const img = document.createElement('img');
+   img.setAttribute('src',"img/icn-search.svg" );
+   img.setAttribute('alt', 'Search Icon');
+   button.appendChild(img);
+}
+const search = document.querySelector('#search');
+const submit = document.querySelector('#submit');
+
+
 function insertDomElements(imgSrc, firstName, lastName, email, dateJoined){
    const li = document.createElement('li');
    li.setAttribute('class', 'student-item');
@@ -75,7 +109,28 @@ function insertDomElements(imgSrc, firstName, lastName, email, dateJoined){
    span2.innerHTML = `Joined ${dateJoined}`;
    studentList.appendChild(li);
 }
-showPage(data, 4);
+showPage(data, 1);
+
+// 1. Create a function to perform your search - it should accept two parameters: searchInput, names.  
+function searchFunc(searchInput, names){
+   // Inside the function's code block:
+   // 1a. Create two `console.log` statements to log out the searchInput and names parameter 
+   console.log(searchInput);
+   console.log(names);
+   // 1b. Loop over the `names` parameter
+   for(let i = 0; i < names.length; i++){
+     // 1c. Remove the 'match' class name from each `names[i]` 
+ 
+     names[i].classList.remove('match');
+   
+     // 1d. Create a conditional that checks two conditions:
+       // 1ca. If the `searchInput.value.length` does not equal the digit zero AND `names[i].textContent.toLowerCase()` includes `searchInput.value.toLowerCase())`
+       if(searchInput.value.length != 0 && names[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase()) ){
+       // 1cb. Add the class name 'match` to `names[i]` 
+         names[i].classList.add('match');
+       }
+   }
+ }
 
 
 /*
@@ -108,6 +163,30 @@ function createButton(buttonNumber){
    linkList.appendChild(li);
 }
 addPagination(data);
+
+
+/* submit listener */
+submit.addEventListener('click', (event) => {
+   event.preventDefault();
+ 
+   // Invoke your search function here - Arguments: search, tableCells
+   searchFunc(search, studentNames);
+ 
+   // Helpful log statement to test function
+   console.log('Submit button is functional!');
+ });
+ 
+ /* submit listener */
+ search.addEventListener('keyup', () => {
+ 
+   // Invoke your search function here - Arguments: search, tableCells
+   searchFunc(search, studentNames);
+ 
+   // Helpful log statement to test function
+   console.log('Keyup event on the Search input is functional!');
+ });
+
+
 linkList.addEventListener('click', (event) => {
    event.preventDefault();
    const active = document.querySelector('.active');
