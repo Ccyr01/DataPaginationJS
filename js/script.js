@@ -53,8 +53,8 @@ function showPage(list, page){
       }
    }
 }
-const studentNames = document.querySelectorAll('h3');
-console.log("studentNames: "+studentNames);
+// const studentNames = document.querySelectorAll('h3');
+
 function insertSearchBar(){
    const label = document.createElement('label');
    label.setAttribute('for', 'search');
@@ -112,23 +112,31 @@ function insertDomElements(imgSrc, firstName, lastName, email, dateJoined){
 showPage(data, 1);
 
 // 1. Create a function to perform your search - it should accept two parameters: searchInput, names.  
-function searchFunc(searchInput, names){
+function searchFunc(searchInput){
    // Inside the function's code block:
    // 1a. Create two `console.log` statements to log out the searchInput and names parameter 
+   const newData = [];
+   let nameString = '';
    console.log(searchInput);
-   console.log(names);
+
+
    // 1b. Loop over the `names` parameter
-   for(let i = 0; i < names.length; i++){
+   for(let i = 0; i < data.length; i++){
      // 1c. Remove the 'match' class name from each `names[i]` 
- 
-     names[i].classList.remove('match');
+      console.log(data[i].name.first);
+      console.log(data[i].name.last);
+      nameString = `${data[i].name.first} ${data[i].name.last} `;
+      console.log(nameString);
+   //   names[i].classList.remove('match');
    
      // 1d. Create a conditional that checks two conditions:
-       // 1ca. If the `searchInput.value.length` does not equal the digit zero AND `names[i].textContent.toLowerCase()` includes `searchInput.value.toLowerCase())`
-       if(searchInput.value.length != 0 && names[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase()) ){
+       if(searchInput.value.length != 0 && nameString.toLowerCase().includes(searchInput.value.toLowerCase()) ){
        // 1cb. Add the class name 'match` to `names[i]` 
-         names[i].classList.add('match');
+         // names[i].classList.add('match');
+         newData.push(data[i]);
        }
+       showPage(newData, 1);
+       addPagination(newData);
    }
  }
 
@@ -170,7 +178,7 @@ submit.addEventListener('click', (event) => {
    event.preventDefault();
  
    // Invoke your search function here - Arguments: search, tableCells
-   searchFunc(search, studentNames);
+   searchFunc(search);
  
    // Helpful log statement to test function
    console.log('Submit button is functional!');
@@ -180,7 +188,7 @@ submit.addEventListener('click', (event) => {
  search.addEventListener('keyup', () => {
  
    // Invoke your search function here - Arguments: search, tableCells
-   searchFunc(search, studentNames);
+   searchFunc(search);
  
    // Helpful log statement to test function
    console.log('Keyup event on the Search input is functional!');
