@@ -141,10 +141,8 @@ function addPagination(list){
    }
    const activeButton = document.getElementsByTagName('button');
    
-   console.log('activeButton: '+activeButton);
-
-   activeButton.className = 'active';
-   console.log('activeButton: '+activeButton.className);
+   console.log(activeButton[1]);
+   activeButton[1].className = 'active';
 
 
 }
@@ -154,7 +152,6 @@ function createButton(buttonNumber){
    const li = document.createElement('li');
 
    const button = document.createElement('button');
-   button.setAttribute('class', 'button');
    button.setAttribute('type', 'button');
    button.innerHTML = buttonNumber+1;
    li.appendChild(button);
@@ -162,7 +159,6 @@ function createButton(buttonNumber){
 }
 addPagination(data);
 const button = document.querySelector('.button');
-console.log('button: '+button);
 
 
 /* submit listener */
@@ -186,15 +182,14 @@ linkList.addEventListener('click', (event) => {
    event.preventDefault();
    const active = document.querySelector('.active');
    const eTarget = event.target;
-   if(eTarget.getElementsByClassName('button')){
-      
+  
+   if(eTarget.tagName.toLowerCase() === 'button'){
       if(active !== null){
          active.classList.remove("active");
       }
       eTarget.className = 'active';
-      if(parseInt(eTarget.textContent) !== 12345){
-         showPage(data, parseInt(eTarget.textContent));
-      }
+      showPage(data, parseInt(eTarget.textContent));
+      
    }
    
 })
