@@ -192,7 +192,9 @@ linkList.addEventListener('click', (event) => {
          active.classList.remove("active");
       }
       eTarget.className = 'active';
-      showPage(data, parseInt(eTarget.textContent));
+      if(parseInt(eTarget.textContent) !== 12345){
+         showPage(data, parseInt(eTarget.textContent));
+      }
    }
    
 })
