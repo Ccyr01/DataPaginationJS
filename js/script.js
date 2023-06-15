@@ -1,21 +1,16 @@
 /*
+Christian Cyr
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
-
-
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
 
 const itemsPerPage = 9;
 const header = document.querySelector('.header');
 
 const studentList = document.querySelector('.student-list');
 const linkList = document.querySelector('.link-list');
+
 const buttons = document.querySelectorAll('button');
 
 
@@ -23,7 +18,8 @@ const buttons = document.querySelectorAll('button');
 insertSearchBar();
 /*
 Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
+This function will create and insert/append
+the elements needed to display a "page" of nine students
 
 pre: list param to represent an array of student objects,
       page param to represent the requested page number
@@ -36,14 +32,7 @@ function showPage(list, page){
    
    const startIndex = (page * itemsPerPage) - itemsPerPage;
    const endIndex = page * itemsPerPage;
-   // let element;
    let i;
-   // for(i = 0; i < studentList.length; i++){
-   //    if(studentList[i] === 'student-list'){
-   //       element = studentList[i];
-   //       break;
-   //    }
-   // }
    studentList.innerHTML = '';
    //loop through objects in list param
    for(i = 0; i < list.length; i++){
@@ -53,8 +42,7 @@ function showPage(list, page){
       }
    }
 }
-// const studentNames = document.querySelectorAll('h3');
-
+//creating a search bar by creating necessary html elements
 function insertSearchBar(){
    const label = document.createElement('label');
    label.setAttribute('for', 'search');
@@ -81,7 +69,8 @@ function insertSearchBar(){
 const search = document.querySelector('#search');
 const submit = document.querySelector('#submit');
 
-
+//pre: take all the necessary elements from the data
+//post: people's pictures and info displayed
 function insertDomElements(imgSrc, firstName, lastName, email, dateJoined){
    const li = document.createElement('li');
    li.setAttribute('class', 'student-item');
@@ -111,39 +100,38 @@ function insertDomElements(imgSrc, firstName, lastName, email, dateJoined){
 }
 showPage(data, 1);
 
-// 1. Create a function to perform your search - it should accept two parameters: searchInput, names.  
+//function to perform your search - 
+//it should accept one parameter: searchInput  
 function searchFunc(searchInput){
-   // Inside the function's code block:
-   // 1a. Create two `console.log` statements to log out the searchInput and names parameter 
    const newData = [];
    let nameString = '';
-   console.log(searchInput);
 
-
-   // 1b. Loop over the `names` parameter
+   // 1b. Loop over the `data` parameter
    for(let i = 0; i < data.length; i++){
-     // 1c. Remove the 'match' class name from each `names[i]` 
-      console.log(data[i].name.first);
-      console.log(data[i].name.last);
+     
       nameString = `${data[i].name.first} ${data[i].name.last} `;
-      console.log(nameString);
-   //   names[i].classList.remove('match');
-   
+   // if nothing is in search bar display normal page
+      if(searchInput.value.length == 0){
+         showPage(data, 1);
+         addPagination(data);
+      }
      // 1d. Create a conditional that checks two conditions:
-       if(searchInput.value.length != 0 && nameString.toLowerCase().includes(searchInput.value.toLowerCase()) ){
-       // 1cb. Add the class name 'match` to `names[i]` 
-         // names[i].classList.add('match');
+      else if(searchInput.value.length != 0 && nameString.toLowerCase().includes(searchInput.value.toLowerCase()) ){
+      //push to new array the people who's names match search input
          newData.push(data[i]);
-       }
-       showPage(newData, 1);
-       addPagination(newData);
+      //call showPage with only the people matching search input
+         showPage(newData, 1);
+         addPagination(newData);
+      }
+       
    }
  }
 
 
 /*
 Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
+This function will create and insert/append
+the elements needed for the pagination buttons
 */
 function addPagination(list){
    const numOfButtons = Math.ceil(list.length / 9);
@@ -160,63 +148,56 @@ function addPagination(list){
 
 
 }
-
+//pre: buttonNumber represents  the one being created in addPagination
+//post: new button created
 function createButton(buttonNumber){
    const li = document.createElement('li');
 
    const button = document.createElement('button');
+   button.setAttribute('class', 'button');
    button.setAttribute('type', 'button');
    button.innerHTML = buttonNumber+1;
    li.appendChild(button);
    linkList.appendChild(li);
 }
 addPagination(data);
+const button = document.querySelector('.button');
+console.log('button: '+button);
 
 
 /* submit listener */
+//when you click button or press enter
 submit.addEventListener('click', (event) => {
-   event.preventDefault();
- 
-   // Invoke your search function here - Arguments: search, tableCells
+   event.preventDefault(); 
    searchFunc(search);
- 
-   // Helpful log statement to test function
-   console.log('Submit button is functional!');
  });
  
  /* submit listener */
+ //listens when a key is released in search bar
+ //meaning thery're typing
  search.addEventListener('keyup', () => {
  
-   // Invoke your search function here - Arguments: search, tableCells
    searchFunc(search);
  
-   // Helpful log statement to test function
-   console.log('Keyup event on the Search input is functional!');
  });
 
-
+//when page number button is clicked it displays correct page
 linkList.addEventListener('click', (event) => {
    event.preventDefault();
    const active = document.querySelector('.active');
-   console.log(active);
    const eTarget = event.target;
-   if(eTarget.getElementsByTagName('button')){
-      // console.log("inside");
-      // console.log("eTarget.className = "+eTarget.classNbuttonsame);
-      // active.remove('active');
+   if(eTarget.getElementsByClassName('button')){
+      
       if(active !== null){
          active.classList.remove("active");
       }
       eTarget.className = 'active';
-      console.log("eTarget.className = "+eTarget.className);
-      console.log(eTarget.textContent);
-      
       showPage(data, parseInt(eTarget.textContent));
    }
+   
 })
 
 
 
 
 
-// Call functions
